@@ -199,7 +199,9 @@
                   </thead>
                   <tbody>
                     <tr v-for="report in reports" :key="report.id">
-                      <td>{{ report.title }}</td>
+                      <td>
+                        <a :href="report.url" class="custom-link">{{ report.title }}</a>
+                      </td>
                       <td>{{ report.institution }}</td>
                       <td>{{ formatDate(report.date) }}</td>
                       <td>{{ report.field1 }} / {{ report.field2 }}</td>

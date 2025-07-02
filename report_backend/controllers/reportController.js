@@ -4,7 +4,7 @@ const path = require('path');
 // 获取所有研报
 const getAllReports = async (req, res) => {
   try {
-    const [reports] = await db.query('SELECT * FROM reports');
+    const [reports] = await db.query('SELECT * FROM reports ORDER BY date DESC');
     res.json(reports);
   } catch (error) {
     console.error('获取研报错误:', error);

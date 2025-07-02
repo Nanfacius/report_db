@@ -1,44 +1,44 @@
 new Vue({
     el: '#app',
     data: {
-    currentPage: 'search',
-    isLoggedIn: false,
-    loginForm: {
-        username: '',
-        password: ''
-    },
-    loginError: '',
-    reports: [],
-    editingReport: {
-        id: null,
-        date: '',
-        institution: '',
-        title: '',
-        field1: '',
-        field2: '',
-        content: '',
-        file: null,
-        url: ''
-    },
-    showUploadForm: false,
-    searchQuery: '',
-    selectedInstitution: '',
-    selectedField1: '',
-    startDate: '',
-    endDate: '',
-    institutions: [],
-    field1Options: [],
-    searchResults: [],
-    currentPageNum: 1,
-    pageSize: 5,
-    loading: false,
-    apiBaseUrl: '/api', // 根据实际后端地址修改
-    token: localStorage.getItem('token') || '',
-    notification: {
-        show: false,
-        message: '',
-        type: 'info'
-    }
+        currentPage: 'search',
+        isLoggedIn: false,
+        loginForm: {
+            username: '',
+            password: ''
+        },
+        loginError: '',
+        reports: [],
+        editingReport: {
+            id: null,
+            date: '',
+            institution: '',
+            title: '',
+            field1: '',
+            field2: '',
+            content: '',
+            file: null,
+            url: ''
+        },
+        showUploadForm: false,
+        searchQuery: '',
+        selectedInstitution: '',
+        selectedField1: '',
+        startDate: '',
+        endDate: '',
+        institutions: [],
+        field1Options: [],
+        searchResults: [],
+        currentPageNum: 1,
+        pageSize: 5,
+        loading: false,
+        apiBaseUrl: '/api', // 根据实际后端地址修改
+        token: localStorage.getItem('token') || '',
+        notification: {
+            show: false,
+            message: '',
+            type: 'info'
+        }
     },
     computed: {
     totalPages() {

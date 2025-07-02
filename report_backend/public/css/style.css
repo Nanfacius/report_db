@@ -493,3 +493,22 @@ footer {
     flex: 1;
     min-width: 100px;
 }
+
+/* 美化链接样式 */
+.custom-link {
+  color: #007BFF; /* 蓝色链接 */
+  text-decoration: none; /* 去掉下划线 */
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+/* 鼠标悬停效果 */
+.custom-link:hover {
+  color: #0056b3; /* 深蓝色 */
+  text-decoration: underline;
+}
+
+/* 点击后效果（可选） */
+.custom-link:active {
+  color: #004080;
+}
