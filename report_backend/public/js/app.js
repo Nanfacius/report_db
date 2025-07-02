@@ -32,7 +32,7 @@ new Vue({
     currentPageNum: 1,
     pageSize: 5,
     loading: false,
-    apiBaseUrl: 'http://localhost:6012/api', // 根据实际后端地址修改
+    apiBaseUrl: '/api', // 根据实际后端地址修改
     token: localStorage.getItem('token') || '',
     notification: {
         show: false,
