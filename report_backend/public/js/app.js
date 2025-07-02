@@ -446,7 +446,7 @@ new Vue({
                     formData.append('date', fileData.date);
                     formData.append('institution', fileData.institution);
                     formData.append('title', fileData.title);
-                    formData.append('content', '通过批量上传添加');
+                    formData.append('content', '');
                     
                     await axios.post(`${this.apiBaseUrl}/reports`, formData, {
                         headers: {
