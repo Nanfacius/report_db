@@ -279,7 +279,11 @@ new Vue({
         link.click();
         document.body.removeChild(link);
     },
-    
+    readReport(report) {
+          // 在新标签页打开PDF
+          window.open(report.url, '_blank');
+          this.showNotification(`正在打开: ${report.title}`, 'info');
+        },
     viewReportDetails(report) {
         alert(`研报详情: ${report.title}\n\n机构: ${report.institution}\n日期: ${this.formatDate(report.date)}\n\n摘要:\n${report.content}`);
     },

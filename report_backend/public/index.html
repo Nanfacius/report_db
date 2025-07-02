@@ -92,7 +92,8 @@
                 <div class="report-content">{{ report.content }}</div>
                 <div class="actions">
                   <button class="btn btn-outline" @click="downloadReport(report)">下载研报</button>
-                  <button class="btn" @click="viewReportDetails(report)">查看详情</button>
+                  <button class="btn" @click="readReport(report)"><i class="fas fa-book-open"></i> 阅读研报</button>
+                  <button class="btn" @click="viewReportDetails(report)">查看简介</button>
                 </div>
               </div>
               
@@ -241,7 +242,7 @@
 
     <footer>
       <div class="container">
-        <p>研报管理系统 © 2023 | 证券研究数据管理平台</p>
+        <p>研报管理系统 © 5 | 证券研究数据管理平台</p>
       </div>
     </footer>
   </div>
