@@ -28,6 +28,7 @@ new Vue({
         endDate: '',
         institutions: [],
         field1Options: [],
+        field2Options: [],
         searchResults: [],
         currentPageNum: 1,
         pageSize: 5,
@@ -134,6 +135,8 @@ new Vue({
         
         // 提取领域1列表
         this.field1Options = [...new Set(reports.map(r => r.field1))].filter(f => f);
+        // 提取领域2列表
+        this.field2Options = [...new Set(reports.map(r => r.field2))].filter(f => f);
         } catch (error) {
         console.error('加载筛选选项失败:', error);
         }
@@ -282,6 +285,7 @@ new Vue({
             query: this.searchQuery,
             institution: this.selectedInstitution,
             field1: this.selectedField1,
+            field2: this.selectedField2,
             startDate: this.startDate,
             endDate: this.endDate
         };

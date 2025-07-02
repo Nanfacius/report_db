@@ -218,6 +218,8 @@ tr:hover {
 }
 
 .action-btn {
+    color:white;
+    background: #2691d8;
     padding: 0.3rem 0.5rem;
     border-radius: 4px;
     cursor: pointer;
@@ -496,7 +498,7 @@ footer {
 
 /* 美化链接样式 */
 .custom-link {
-  color: #007BFF; /* 蓝色链接 */
+  color: #094a8e; /* 蓝色链接 */
   text-decoration: none; /* 去掉下划线 */
   font-weight: bold;
   transition: color 0.3s ease;
@@ -504,7 +506,7 @@ footer {
 
 /* 鼠标悬停效果 */
 .custom-link:hover {
-  color: #0056b3; /* 深蓝色 */
+  color: #032f5e; /* 深蓝色 */
   text-decoration: underline;
 }
 

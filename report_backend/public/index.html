@@ -63,6 +63,14 @@
                   <option v-for="field in field1Options" :value="field">{{ field }}</option>
                 </select>
               </div>
+
+              <div class="form-group">
+                <label>领域2</label>
+                <select v-model="selectedField2">
+                  <option value="">全部领域</option>
+                  <option v-for="field in field2Options" :value="field">{{ field }}</option>
+                </select>
+              </div>
               
               <div class="form-group">
                 <label>日期范围</label>
