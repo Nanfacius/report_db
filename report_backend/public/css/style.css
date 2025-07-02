@@ -514,3 +514,44 @@ footer {
 .custom-link:active {
   color: #004080;
 }
+
+/* 在样式部分添加 */
+.batch-upload-status {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.progress-bar {
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.progress {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.3s;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #666;
+  margin-top: 5px;
+}
+
+.error-title {
+  font-weight: bold;
+  color: #d32f2f;
+  margin-top: 15px;
+}
+
+.batch-upload-status ul {
+  max-height: 100px;
+  overflow-y: auto;
+  padding-left: 20px;
+}

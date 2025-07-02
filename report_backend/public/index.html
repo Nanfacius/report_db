@@ -71,7 +71,7 @@
                   <option v-for="field1 in field2Options" :value="field1">{{ field1 }}</option>
                 </select>
               </div>
-              
+              <label>&nbsp;</label>
               <div class="form-group">
                 <label>日期范围</label>
                 <input type="date" v-model="startDate">
@@ -141,7 +141,12 @@
                   <label>PDF文件</label>
                   <input type="file" accept=".pdf" @change="handleFileUpload" ref="fileInput" required>
                 </div>
-                
+                <!-- 添加批量上传 -->
+                <div class="form-group" v-if="!editingReport.id">
+                  <label>批量上传</label>
+                  <input type="file" multiple accept=".pdf" @change="handleBatchFileUpload" ref="batchFileInput">
+                  <p class="help-text">文件格式要求: YYYYMMDD-机构-标题.pdf（如：20240703-中金-市场分析报告.pdf）</p>
+                </div>
                 <div class="flex-row">
                   <div class="form-group">
                     <label>日期</label>
@@ -184,6 +189,23 @@
                 <div class="actions">
                   <button type="submit" class="btn btn-success">{{ editingReport.id ? '更新' : '保存' }}</button>
                   <button type="button" class="btn btn-outline" @click="cancelEdit">取消</button>
+                </div>
+                <div v-if="batchUploads.length > 0" class="batch-upload-status">
+                  <h4>批量上传进度</h4>
+                  <div class="progress-bar">
+                    <div class="progress" :style="{ width: batchProgress + '%' }"></div>
+                  </div>
+                  <p>已完成: {{ batchSuccessCount }}/{{ batchUploads.length }} ({{ batchProgress }}%)</p>
+                  
+                  <!-- 错误文件列表 -->
+                  <div v-if="batchErrorFiles.length > 0">
+                    <p class="error-title">上传失败的文件:</p>
+                    <ul>
+                      <li v-for="(file, index) in batchErrorFiles" :key="index">
+                        {{ file.filename }} - {{ file.reason }}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </form>
             </div>

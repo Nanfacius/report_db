@@ -83,7 +83,7 @@ const deleteReport = async (req, res) => {
 
 // 搜索研报
 const searchReports = async (req, res) => {
-  const { query, institution, field1, startDate, endDate } = req.query;
+  const { query, institution, field1, field2, startDate, endDate } = req.query;
   
   try {
     let sql = 'SELECT * FROM reports WHERE 1=1';
@@ -102,6 +102,11 @@ const searchReports = async (req, res) => {
     if (field1) {
       sql += ' AND field1 = ?';
       params.push(field1);
+    }
+
+    if (field2) {
+      sql += ' AND field2 = ?';
+      params.push(field2);
     }
     
     if (startDate) {

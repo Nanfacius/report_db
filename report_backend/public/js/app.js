@@ -40,7 +40,11 @@ new Vue({
             show: false,
             message: '',
             type: 'info'
-        }
+        },
+        batchUploads: [],
+        batchProgress: 0,
+        batchErrorFiles: [],
+        batchSuccessCount: 0
     },
     computed: {
     totalPages() {
@@ -323,6 +327,99 @@ new Vue({
     formatDate(dateString) {
         const date = new Date(dateString);
         return `${date.getFullYear()}年${(date.getMonth() + 1).toString().padStart(2, '0')}月${date.getDate().toString().padStart(2, '0')}日`;
+    },
+
+    // 批量文件上传处理
+  handleBatchFileUpload(event) {
+    const files = Array.from(event.target.files);
+    const validFiles = [];
+    const invalidFiles = [];
+    
+    files.forEach(file => {
+      const filename = file.name;
+      const pattern = /^(\d{4})(\d{2})(\d{2})-(.*?)-(.*)\.pdf$/i;
+      const match = filename.match(pattern);
+      
+      if (match) {
+        validFiles.push({
+          file,
+          filename,
+          date: `${match[1]}-${match[2]}-${match[3]}`,
+          institution: match[4],
+          title: match[5],
+          valid: true
+        });
+      } else {
+        invalidFiles.push({
+          file,
+          filename,
+          reason: '文件名格式不正确'
+        });
+      }
+    });
+    
+    this.batchUploads = validFiles;
+    this.batchErrorFiles = invalidFiles;
+    this.batchProgress = 0;
+    this.batchSuccessCount = 0;
+    
+    // 如果有无效文件显示警告
+    if (invalidFiles.length > 0) {
+      const invalidNames = invalidFiles.map(f => f.filename).join(', ');
+      this.showNotification(`${invalidFiles.length} 个文件格式无效: ${invalidNames}`, 'warning');
     }
+    
+    // 自动触发批量上传
+    if (validFiles.length > 0) {
+      this.$refs.fileInput.value = ''; // 清空单个文件选择
+      this.processBatchUpload();
+    }
+  },
+  
+  // 批量处理上传
+  async processBatchUpload() {
+    for (let i = 0; i < this.batchUploads.length; i++) {
+      const upload = this.batchUploads[i];
+      try {
+        const formData = new FormData();
+        formData.append('pdf', upload.file);
+        formData.append('date', upload.date);
+        formData.append('institution', upload.institution);
+        formData.append('title', upload.title);
+        formData.append('content', '批量上传的文件，请在管理页面更新内容摘要');
+        
+        await axios.post(`${this.apiBaseUrl}/reports`, formData, {
+          headers: {
+            Authorization: `Bearer ${this.token}`,
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        
+        this.batchSuccessCount++;
+      } catch (error) {
+        this.batchErrorFiles.push({
+          filename: upload.filename,
+          reason: error.response?.data?.message || '上传失败'
+        });
+      } finally {
+        this.batchProgress = Math.floor(((i + 1) / this.batchUploads.length) * 100);
+      }
+    }
+    
+    // 处理完成后刷新数据
+    if (this.batchSuccessCount > 0) {
+      this.showNotification(`批量上传完成: ${this.batchSuccessCount} 个成功, ${this.batchErrorFiles.length} 个失败`, 'success');
+      this.loadReports();
+    } else {
+      this.showNotification('批量上传失败', 'error');
+    }
+    
+    // 重置批量上传状态
+    setTimeout(() => {
+      this.batchUploads = [];
+      this.batchProgress = 0;
+      this.$refs.batchFileInput.value = '';
+    }, 5000);
+  },
     }
 });
