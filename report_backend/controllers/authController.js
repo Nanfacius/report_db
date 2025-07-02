@@ -14,8 +14,8 @@ const login = async (req, res) => {
   try {
     // 实际应用中应该查询用户表
     // 这里为了简化，使用固定管理员账号
-    const adminUsername = 'admin';
-    const adminPassword = '114514'; // 实际应用中应该存储哈希值
+    const adminUsername = process.env.ADMIN_ACCOUNT || 'admin'; // 从环境变量获取管理员账号
+    const adminPassword = process.env.ADMIN_PASSWORD || '114514'; // 实际应用中应该存储哈希值
     
     if (username !== adminUsername || password !== adminPassword) {
       return res.status(401).json({ message: '用户名或密码错误' });
