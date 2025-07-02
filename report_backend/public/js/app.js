@@ -139,12 +139,12 @@ new Vue({
         const reports = response.data;
         
         // 提取机构列表
-        this.institutions = [...new Set(reports.map(r => r.institution))].filter(i => i);
+        this.institutions = [...new Set(reports.map(r => r.institution))].filter(i => i).sort((a, b) => a.localeCompare(b, 'zh-CN'));
         
         // 提取领域1列表
-        this.field1Options = [...new Set(reports.map(r => r.field1))].filter(f => f);
+        this.field1Options = [...new Set(reports.map(r => r.field1))].filter(f => f).sort((a, b) => a.localeCompare(b, 'zh-CN'));
         // 提取领域2列表
-        this.field2Options = [...new Set(reports.map(r => r.field2))].filter(f => f);
+        this.field2Options = [...new Set(reports.map(r => r.field2))].filter(f => f).sort((a, b) => a.localeCompare(b, 'zh-CN'));
         } catch (error) {
         console.error('加载筛选选项失败:', error);
         }

@@ -129,6 +129,7 @@
               <h2 class="card-title">研报管理</h2>
               <!-- 在搜索区域添加批量上传按钮 -->
               <div class="search-bar">
+                <button class="btn btn-success" @click="showUploadForm = true; resetForm()">上传新研报</button>
                 <button @click="openBatchUpload" class="btn btn-batch-upload">批量上传</button>
                 <!-- 原有搜索区域内容保持不变 -->
               </div>
@@ -144,7 +145,6 @@
                     <div class="drop-zone" @dragover.prevent @drop="handleBatchDrop">
                       <p>拖放PDF文件到这里<br>或</p>
                       <input type="file" multiple accept=".pdf" @change="handleBatchFileUpload" ref="batchFileInput">
-                      <button class="btn btn-select">选择文件</button>
                     </div>
                     <p class="help-text">文件格式要求: YYYYMMDD-机构-标题.pdf<br>例如: 20240703-中金-市场分析报告.pdf</p>
                   </div>
@@ -180,8 +180,8 @@
                           <td>
                             <span class="status pending" v-if="file.status === 'pending'">等待上传</span>
                             <span class="status uploading" v-if="file.status === 'uploading'">上传中...</span>
-                            <span class="status success" v-if="file.status === 'success'">✓ 成功</span>
-                            <span class="status error" v-if="file.status === 'error'">✗ 错误: {{ file.errorReason }}</span>
+                            <span class="status success" v-if="file.status === 'success'">成功</span>
+                            <span class="status error" v-if="file.status === 'error'">错误: {{ file.errorReason }}</span>
                           </td>
                         </tr>
                       </tbody>
@@ -189,7 +189,6 @@
                   </div>
                 </div>
               </div>
-              <button class="btn btn-success" @click="showUploadForm = true; resetForm()">上传新研报</button>
             </div>
             
             <!-- 上传表单 -->

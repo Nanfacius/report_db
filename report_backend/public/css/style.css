@@ -542,10 +542,10 @@ footer {
 
 .modal-content {
     background-color: #fff;
-    padding: 20px;
+    padding: 10px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 1000px;
+    width: 100%;
+    max-width: 1400px;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
