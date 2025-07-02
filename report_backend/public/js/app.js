@@ -24,6 +24,7 @@ new Vue({
         searchQuery: '',
         selectedInstitution: '',
         selectedField1: '',
+        selectedField2: '',
         startDate: '',
         endDate: '',
         institutions: [],
