@@ -129,6 +129,11 @@
               </div>
               
               <form @submit.prevent="saveReport">
+                <div class="form-group" v-if="!editingReport.id">
+                  <label>PDF文件</label>
+                  <input type="file" accept=".pdf" @change="handleFileUpload" ref="fileInput" required>
+                </div>
+                
                 <div class="flex-row">
                   <div class="form-group">
                     <label>日期</label>
@@ -161,11 +166,6 @@
                 <div class="form-group">
                   <label>内容摘要</label>
                   <textarea v-model="editingReport.content"></textarea>
-                </div>
-                
-                <div class="form-group" v-if="!editingReport.id">
-                  <label>PDF文件</label>
-                  <input type="file" accept=".pdf" @change="handleFileUpload" ref="fileInput" required>
                 </div>
                 
                 <div v-if="editingReport.id" class="form-group">
@@ -242,7 +242,7 @@
 
     <footer>
       <div class="container">
-        <p>研报管理系统 © 5 | 证券研究数据管理平台</p>
+        <p>研报管理系统 © 2025 | 证券研究数据管理平台</p>
       </div>
     </footer>
   </div>

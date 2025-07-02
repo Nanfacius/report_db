@@ -225,6 +225,33 @@ new Vue({
     
     handleFileUpload(event) {
         this.editingReport.file = event.target.files[0];
+        
+        // 自动填充逻辑
+        if (this.editingReport.file) {
+            const filename = this.editingReport.file.name;
+            
+            // 匹配 YYYYmmdd-机构-标题.pdf 格式
+            const pattern = /^(\d{4})(\d{2})(\d{2})-(.*?)-(.*)\.pdf$/i;
+            const match = filename.match(pattern);
+            
+            if (match) {
+                // 解析日期部分 (YYYY-MM-DD格式)
+                const year = match[1];
+                const month = match[2];
+                const day = match[3];
+                this.editingReport.date = `${year}-${month}-${day}`;
+                
+                // 解析机构
+                this.editingReport.institution = match[4];
+                
+                // 解析标题（保留原标题中的短横线）
+                this.editingReport.title = match[5];
+            } else {
+                // 文件名不符合规范时，尝试提取标题
+                const titlePart = filename.replace(/\.pdf$/i, '');
+                this.editingReport.title = titlePart;
+            }
+        }
     },
     
     confirmDelete(report) {
