@@ -32,7 +32,7 @@ new Vue({
         field2Options: [],
         searchResults: [],
         currentPageNum: 1,
-        pageSize: 5,
+        pageSize: 20,
         loading: false,
         apiBaseUrl: '/api', // 根据实际后端地址修改
         token: localStorage.getItem('token') || '',

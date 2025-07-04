@@ -4,7 +4,7 @@ const path = require('path');
 // 获取所有研报
 const getAllReports = async (req, res) => {
   try {
-    const [reports] = await db.query('SELECT * FROM reports ORDER BY date DESC');
+    const [reports] = await db.query('SELECT id,date,institution,title,field1,field2,content_short AS content,url,created_at,updated_at FROM reports ORDER BY date DESC');
     res.json(reports);
   } catch (error) {
     console.error('获取研报错误:', error);
@@ -25,8 +25,8 @@ const createReport = async (req, res) => {
   
   try {
     const [result] = await db.query(
-      'INSERT INTO reports (date, institution, title, field1, field2, content, url) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [date, institution, title, field1, field2, content, url]
+      'INSERT INTO reports (date, institution, title, field1, field2, content, url, content_short) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [date, institution, title, field1, field2, content, url, content.substring(0,1024)]
     );
     
     res.status(201).json({
@@ -47,9 +47,9 @@ const updateReport = async (req, res) => {
   try {
     const [result] = await db.query(
       `UPDATE reports 
-       SET date = ?, institution = ?, title = ?, field1 = ?, field2 = ?, content = ?
+       SET date = ?, institution = ?, title = ?, field1 = ?, field2 = ?, content = ?, content_short = ?
        WHERE id = ?`,
-      [date, institution, title, field1, field2, content, reportId]
+      [date, institution, title, field1, field2, content, reportId, content.substring(0,1024)]
     );
     
     if (result.affectedRows === 0) {
@@ -119,6 +119,8 @@ const searchReports = async (req, res) => {
       params.push(endDate);
     }
     
+    sql += ' ORDER BY date DESC';
+
     const [reports] = await db.query(sql, params);
     res.json(reports);
   } catch (error) {
