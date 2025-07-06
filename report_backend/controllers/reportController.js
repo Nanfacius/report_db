@@ -25,7 +25,7 @@ const createReport = async (req, res) => {
   
   try {
     const [result] = await db.query(
-      'INSERT INTO reports (date, institution, title, field1, field2, content, url, content_short) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO reports (date, institution, title, field1, field2, content, url, content_short) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
       [date, institution, title, field1, field2, content, url, content.substring(0,1024)]
     );
     
