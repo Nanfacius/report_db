@@ -36,6 +36,7 @@ new Vue({
         loading: false,
         apiBaseUrl: '/api', // 根据实际后端地址修改
         token: localStorage.getItem('token') || '',
+        uploadProgress: 0,
         notification: {
             show: false,
             message: '',
@@ -152,58 +153,67 @@ new Vue({
     
     async saveReport() {
         if (this.editingReport.id) {
-        // 更新现有研报
-        try {
-            await axios.put(
-            `${this.apiBaseUrl}/reports/${this.editingReport.id}`,
-            this.editingReport,
-            { headers: { Authorization: `Bearer ${this.token}` } }
-            );
-            
-            this.showNotification('研报更新成功', 'success');
-            this.loadReports();
-            this.resetForm();
-            this.showUploadForm = false;
-        } catch (error) {
-            console.error('更新研报失败:', error);
-            this.showNotification('研报更新失败', 'error');
-        }
-        } else {
-        // 创建新研报
-        if (!this.editingReport.file) {
-            this.showNotification('请选择PDF文件', 'error');
-            return;
-        }
-        
-        const formData = new FormData();
-        formData.append('pdf', this.editingReport.file);
-        formData.append('date', this.editingReport.date);
-        formData.append('institution', this.editingReport.institution);
-        formData.append('title', this.editingReport.title);
-        formData.append('field1', this.editingReport.field1);
-        formData.append('field2', this.editingReport.field2);
-        formData.append('content', this.editingReport.content);
-        
-        try {
-            const response = await axios.post(
-            `${this.apiBaseUrl}/reports`,
-            formData,
-            {
-                headers: {
-                Authorization: `Bearer ${this.token}`,
-                'Content-Type': 'multipart/form-data'
-                }
+            // 更新现有研报
+            try {
+                await axios.put(
+                `${this.apiBaseUrl}/reports/${this.editingReport.id}`,
+                this.editingReport,
+                { headers: { Authorization: `Bearer ${this.token}` } }
+                );
+                
+                this.showNotification('研报更新成功', 'success');
+                this.loadReports();
+                this.resetForm();
+                this.showUploadForm = false;
+            } catch (error) {
+                console.error('更新研报失败:', error);
+                this.showNotification('研报更新失败', 'error');
             }
-            );
+            } else {
+            // 创建新研报
+            if (!this.editingReport.file) {
+                this.showNotification('请选择PDF文件', 'error');
+                return;
+            }
             
-            this.showNotification('研报创建成功', 'success');
-            this.loadReports();
-            this.resetForm();
-            this.showUploadForm = false;
-        } catch (error) {
-            console.error('创建研报失败:', error);
-            this.showNotification('研报创建失败', 'error');
-        }
+            const formData = new FormData();
+            formData.append('pdf', this.editingReport.file);
+            formData.append('date', this.editingReport.date);
+            formData.append('institution', this.editingReport.institution);
+            formData.append('title', this.editingReport.title);
+            formData.append('field1', this.editingReport.field1);
+            formData.append('field2', this.editingReport.field2);
+            formData.append('content', this.editingReport.content);
+            
+            this.uploadProgress = 0; // 重置进度
+
+            try {
+                const response = await axios.post(
+                    `${this.apiBaseUrl}/reports`,
+                    formData,
+                    {
+                        headers: {
+                        Authorization: `Bearer ${this.token}`,
+                        'Content-Type': 'multipart/form-data'
+                        },
+                        onUploadProgress: (progressEvent) => {
+                            if (progressEvent.lengthComputable) {
+                                this.uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                            }
+                        }
+                    }
+                );
+                
+                this.showNotification('研报创建成功', 'success');
+                this.loadReports();
+                this.resetForm();
+                this.showUploadForm = false;
+                this.uploadProgress = 0; // 上传完成后重置
+            } catch (error) {
+                console.error('创建研报失败:', error);
+                this.showNotification('研报创建失败', 'error');
+                this.uploadProgress = 0; // 上传失败后重置
+            }
         }
     },
     

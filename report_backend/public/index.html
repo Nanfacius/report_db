@@ -247,6 +247,12 @@
                   <button type="button" class="btn btn-outline" @click="cancelEdit">取消</button>
                 </div>
               </form>
+              <div v-if="uploadProgress > 0" style="margin: 10px 0;">
+                <div style="background: #eee; height: 8px; border-radius: 4px;">
+                  <div :style="{width: uploadProgress + '%', background: '#409eff', height: '8px', borderRadius: '4px'}"></div>
+                </div>
+                <div style="font-size: 12px; color: #666;">上传进度：{{ uploadProgress }}%</div>
+              </div>
             </div>
             
             <!-- 研报列表 -->
