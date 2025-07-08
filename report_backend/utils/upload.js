@@ -21,7 +21,7 @@ const upload = multer({
     }
   },
   limits: {
-    fileSize: 10 * 1024 * 1024 // 限制为10MB
+    fileSize: 30 * 1024 * 1024 // 限制为30MB
   }
 });
 
